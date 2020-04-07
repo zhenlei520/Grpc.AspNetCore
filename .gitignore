@@ -1,0 +1,11 @@
+/.vs
+Infrastructure/*/bin/
+Infrastructure/*/obj/
+*.cache
+*.dll
+*.pdb
+Infrastructure/*/obj/*
+.idea/*
+bin/
+obj/
+.vscode/*
