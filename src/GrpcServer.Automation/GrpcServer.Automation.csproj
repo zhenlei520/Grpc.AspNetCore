@@ -8,15 +8,24 @@
         <Company>zhenlei520</Company>
         <Description>dotnet core Grpc service自动注入</Description>
         <RepositoryUrl>https://github.com/zhenlei520/Grpc.AspNetCore</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/zhenlei520/Grpc.AspNetCore.Server.Automation/</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/zhenlei520/GrpcServer.Automation/</PackageProjectUrl>
         <Copyright>Copyright ©zhenlei520 2020</Copyright>
         <PackageIconUrl>https://secure.gravatar.com/avatar/932ca0f8eaf4df1aaf221f9a1a897569?s=512</PackageIconUrl>
         <Title>Grpc服务端自动注入类库</Title>
-        <PackageTags>Grpc.AspNetCore.Server.Automation</PackageTags>
+        <PackageTags>GrpcServer.Automation</PackageTags>
         <NeutralLanguage>zh-CN</NeutralLanguage>
     </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DocumentationFile>bin\Debug\GrpcServer.Automation.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DocumentationFile>bin\Release\GrpcServer.Automation.xml</DocumentationFile>
+    </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="EInfrastructure.Core" Version="2.0.1-beta-020"/>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.27.0"/>
+        <PackageReference Include="EInfrastructure.Core" Version="2.0.1-beta-020" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
     </ItemGroup>
+
 </Project>
