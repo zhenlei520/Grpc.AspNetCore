@@ -18,30 +18,6 @@ namespace Grpc.AspNetCore.Server.Automation
     /// </summary>
     public static class ServiceExtension
     {
-        #region 添加自动注入Grpc节点
-
-        /// <summary>
-        /// 添加自动注入Grpc节点
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        /// <param name="endpoints"></param>
-        public static void AddGrpcEndpoint(this IServiceProvider serviceProvider, IEndpointRouteBuilder endpoints)
-        {
-            Type workerType = typeof(GrpcEndpointRouteBuilderExtensions);
-            MethodInfo staticDoWorkMethod = workerType.GetMethod("MapGrpcService");
-            serviceProvider.GetService<ICollection<IGrpcService>>().ToList().ForEach(
-                type =>
-                {
-                    if (staticDoWorkMethod != null && type.GetType().IsClass && !type.GetType().IsAbstract)
-                    {
-                        MethodInfo curMethod = staticDoWorkMethod.MakeGenericMethod(type.GetType());
-                        curMethod.Invoke(null, new[] {endpoints}); //Static method
-                    }
-                });
-        }
-
-        #endregion
-
         #region 添加Grpc健康检查
 
         /// <summary>
@@ -49,7 +25,7 @@ namespace Grpc.AspNetCore.Server.Automation
         /// </summary>
         /// <param name="endpoints">节点</param>
         /// <param name="checkUrl">检查地址</param>
-        public static void AddGrpcHealthy(this IEndpointRouteBuilder endpoints, string checkUrl)
+        public static void AddGrpcHealthy(this IEndpointRouteBuilder endpoints, string checkUrl = "")
         {
             if (!string.IsNullOrEmpty(checkUrl))
             {
@@ -68,24 +44,44 @@ namespace Grpc.AspNetCore.Server.Automation
         /// 使用Grpc
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="endpoints">节点</param>
         /// <param name="action"></param>
-        public static void UseGrpc(this IApplicationBuilder app, IEndpointRouteBuilder endpoints = null,
+        public static void UseGrpc(this IApplicationBuilder app,
             Action<IEndpointRouteBuilder> action = null)
         {
-            if (endpoints == null)
+            app.UseEndpoints(item =>
             {
-                app.UseEndpoints(item =>
-                {
-                    app.ApplicationServices.AddGrpcEndpoint(item);
-                    action?.Invoke(item);
-                });
-            }
-            else
-            {
-                app.ApplicationServices.AddGrpcEndpoint(endpoints);
-            }
+                app.ApplicationServices.AddGrpcEndpoint(item);
+                action?.Invoke(item);
+            });
         }
+
+        #endregion
+
+        #region private methods
+
+        #region 添加自动注入Grpc节点
+
+        /// <summary>
+        /// 添加自动注入Grpc节点
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="endpoints"></param>
+        private static void AddGrpcEndpoint(this IServiceProvider serviceProvider, IEndpointRouteBuilder endpoints)
+        {
+            Type workerType = typeof(GrpcEndpointRouteBuilderExtensions);
+            MethodInfo staticDoWorkMethod = workerType.GetMethod("MapGrpcService");
+            serviceProvider.GetService<ICollection<IGrpcService>>().ToList().ForEach(
+                type =>
+                {
+                    if (staticDoWorkMethod != null && type.GetType().IsClass && !type.GetType().IsAbstract)
+                    {
+                        MethodInfo curMethod = staticDoWorkMethod.MakeGenericMethod(type.GetType());
+                        curMethod.Invoke(null, new[] {endpoints}); //Static method
+                    }
+                });
+        }
+
+        #endregion
 
         #endregion
     }
