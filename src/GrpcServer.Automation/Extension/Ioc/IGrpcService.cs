@@ -3,7 +3,7 @@
 
 using EInfrastructure.Core.Configuration.Ioc;
 
-namespace Grpc.AspNetCore.Server.Automation.Extension.Ioc
+namespace GrpcServer.Automation.Extension.Ioc
 {
     /// <summary>
     /// grpc服务需要依赖注入此接口

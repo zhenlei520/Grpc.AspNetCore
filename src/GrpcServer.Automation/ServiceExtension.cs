@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Grpc.AspNetCore.Server.Automation.Extension.Ioc;
+using GrpcServer.Automation.Extension.Ioc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Grpc.AspNetCore.Server.Automation
+namespace GrpcServer.Automation
 {
     /// <summary>
     /// 
@@ -25,15 +25,17 @@ namespace Grpc.AspNetCore.Server.Automation
         /// </summary>
         /// <param name="endpoints">节点</param>
         /// <param name="checkUrl">检查地址</param>
-        public static void AddGrpcHealthy(this IEndpointRouteBuilder endpoints, string checkUrl = "")
+        /// <param name="tip">自定义健康输出</param>
+        public static void AddGrpcHealthy(this IEndpointRouteBuilder endpoints, string checkUrl = "",
+            string tip = "Ok!")
         {
-            if (!string.IsNullOrEmpty(checkUrl))
+            if (string.IsNullOrEmpty(checkUrl))
             {
                 checkUrl = "/Check/Healthy";
             }
 
             endpoints.MapGet(checkUrl,
-                async context => { await context.Response.WriteAsync("Ok!"); });
+                async context => { await context.Response.WriteAsync(tip); });
         }
 
         #endregion
