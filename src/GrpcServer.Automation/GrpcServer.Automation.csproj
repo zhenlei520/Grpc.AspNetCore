@@ -10,10 +10,10 @@
         <RepositoryUrl>https://github.com/zhenlei520/Grpc.AspNetCore</RepositoryUrl>
         <PackageProjectUrl>https://github.com/zhenlei520/GrpcServer.Automation/</PackageProjectUrl>
         <Copyright>Copyright ©zhenlei520 2020</Copyright>
-        <PackageIconUrl>https://secure.gravatar.com/avatar/932ca0f8eaf4df1aaf221f9a1a897569?s=512</PackageIconUrl>
         <Title>Grpc服务端自动注入类库</Title>
         <PackageTags>GrpcServer.Automation</PackageTags>
         <NeutralLanguage>zh-CN</NeutralLanguage>
+        <PackageIcon>packageIcon.png</PackageIcon>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -26,6 +26,12 @@
     <ItemGroup>
         <PackageReference Include="EInfrastructure.Core" Version="2.0.1-beta-020" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="..\..\packageIcon.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
     </ItemGroup>
 
 </Project>
